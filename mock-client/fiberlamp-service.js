@@ -36,6 +36,9 @@ exports.handleColor = function handleColor(args) {
 
   log(`tweening to color: [ ${args.slice(0,3).join()} ] over ${args[3]}s`);
 
+  // THIS IS SOME SERIOUS BLOCKING!!!! the next request will get processed and added to the messaging
+  // queue but it won't be executed until this loop completes. Following the current implementaion 
+  // of illuminator.py
   let now = Date.now();
   do {
     let dt = Math.abs(now - Date.now());
