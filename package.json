@@ -15,6 +15,9 @@
       "localenvify"
     ]
   },
+  "engines": {
+    "npm": "3.x"
+  },
   "dependencies": {
     "ansi": "^0.3.1",
     "chalk": "^1.1.1",
