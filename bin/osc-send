@@ -1,0 +1,35 @@
+#! /usr/bin/env node
+
+'use strict';
+
+require('localenv');
+
+const osc = require('node-osc');
+const program = require('commander');
+const log = require('debug')('send');
+
+let addr;
+let msgs;
+
+program
+  .arguments('<addr> [msgs...]')
+  .action((a, m) => {
+    addr = a;
+    msgs = m;
+  })
+  .parse(process.argv);
+
+
+if (!addr) {
+  program.help();
+}
+
+log(`creating server for ${process.env.SERVER_IP_ADDRESS}:${process.env.OSC_PORT}`);
+
+let server = new osc.Client(process.env.SERVER_IP_ADDRESS, process.env.OSC_PORT);
+
+server.send(addr, msgs, err => {
+  if (err) throw err;
+  server.kill();
+  log(`sent: ${addr} - ${msgs.join(' ')}`);
+});
